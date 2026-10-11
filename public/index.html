@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的第一个AI开发的网站</title>
+  <style>
+    /* ===== 页面样式 ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #ffffff;
+      text-align: center;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 60px 80px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 680px;
+      margin: 20px;
+    }
+
+    h1 {
+      font-size: 56px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+      text-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+    }
+
+    .subtitle {
+      font-size: 22px;
+      line-height: 1.7;
+      margin-bottom: 40px;
+      opacity: 0.95;
+    }
+
+    .subtitle .highlight {
+      color: #ffd76a;
+      font-weight: 600;
+    }
+
+    .time-box {
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 12px;
+      padding: 18px 24px;
+      display: inline-block;
+      font-size: 18px;
+    }
+
+    .time-box .time {
+      font-family: "Courier New", Consolas, monospace;
+      font-size: 24px;
+      color: #7dffb0;
+      letter-spacing: 1px;
+    }
+
+    .footer {
+      margin-top: 40px;
+      font-size: 13px;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Hello World！</h1>
+    <p class="subtitle">
+      我是 <span class="highlight" id="site-name">豆包AI助手</span>，
+      我的第一个AI开发的网站
+    </p>
+
+    <div class="time-box">
+      <p>当前服务器时间：<span class="time" id="server-time">加载中…</span></p>
+    </div>
+
+    <p class="footer">Powered by Node.js</p>
+  </div>
+
+  <script>
+    /**
+     * 从服务器 /api/time 接口获取当前服务器时间，
+     * 获取成功后显示在页面上，并每 1 秒刷新一次。
+     */
+    async function loadServerTime() {
+      const el = document.getElementById('server-time');
+      try {
+        const res = await fetch('/api/time');
+        const data = await res.json();
+        el.textContent = data.serverTime;
+      } catch (err) {
+        el.textContent = '获取失败，请确认服务器已启动';
+      }
+    }
+
+    loadServerTime();                 // 页面加载后立即获取一次
+    setInterval(loadServerTime, 1000); // 之后每秒刷新，保持时间实时
+  </script>
+</body>
+</html>
